@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
+    FOS\RestBundle\Controller\FOSRestController;
 
-class DefaultController extends Controller
+class PostController extends FOSRestController
 {
     /**
      * @Route("/", name="homepage")
