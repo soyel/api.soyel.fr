@@ -3,14 +3,20 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
-    FOS\RestBundle\Controller\FOSRestController;
+    FOS\RestBundle\Controller\FOSRestController,
+    FOS\RestBundle\Controller\Annotations\NamePrefix;
 
+use AppBundle\Entity\Post;
+
+/**
+ * @NamePrefix("api_v1_")
+ */
 class PostController extends FOSRestController
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/")
      */
-    public function indexAction()
+    public function getPostAction(Post $post)
     {
         return $this->render('default/index.html.twig');
     }
