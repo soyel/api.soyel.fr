@@ -2,9 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
-    FOS\RestBundle\Controller\FOSRestController,
-    FOS\RestBundle\Controller\Annotations\NamePrefix;
+use FOS\RestBundle\Controller\FOSRestController,
+    FOS\RestBundle\Controller\Annotations as FOSRest,
+    FOS\RestBundle\Controller\Annotations\NamePrefix,
+    Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use AppBundle\Entity\Post;
 
@@ -14,10 +15,33 @@ use AppBundle\Entity\Post;
 class PostController extends FOSRestController
 {
     /**
-     * @Route("/")
-     */
+    * Get single Page,
+    *
+    * @ApiDoc(
+    *   resource = true,
+    *   description = "Gets a Post for a given id",
+    *   output = "AppBundle\Entity\Post",
+    *   statusCodes = {
+    *     200 = "Returned when successful",
+    *     404 = "Returned when the page is not found"
+    *   }
+    * )
+    *
+    * @FOSRest\View(templateVar="post")
+    *
+    * @param Post    $post    the post id
+    *
+    * @return array
+    *
+    * @throws NotFoundHttpException when page not exist
+    */
     public function getPostAction(Post $post)
     {
-        return $this->render('default/index.html.twig');
+        $post = $this->container
+        ->get('post_handler')
+        ->get($post);
+        $statusCode = 200;
+        $view = $this->view($post, $statusCode);
+        return $this->handleView($view);
     }
 }

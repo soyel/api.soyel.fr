@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Handler;
+namespace AppBundle\Model;
 
 use AppBundle\Model\PostInterface;
 
