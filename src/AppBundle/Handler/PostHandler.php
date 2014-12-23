@@ -1,11 +1,12 @@
 <?php
 
-namespace Acme\BlogBundle\Handler;
+namespace AppBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager,
-    Acme\BlogBundle\Model\PageInterface;
+    AppBundle\Model\PostInterface,
+    AppBundle\Model\PostHandlerInterface;
 
-class PageHandler implements PageHandlerInterface
+class PostHandler implements PostHandlerInterface
 {
     /**
      * @var Doctrine\Common\Persistence\ObjectManager $om
