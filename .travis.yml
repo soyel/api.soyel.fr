@@ -10,7 +10,7 @@ php:
 branches:
   only:
       - master
-	  - develop
+      - develop
 
 before_script:
   - composer install
