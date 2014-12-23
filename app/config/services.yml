@@ -7,3 +7,8 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    post_handler:
+        class: AppBundle\Handler\PostHandler
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - AppBundle\Entity\Post
