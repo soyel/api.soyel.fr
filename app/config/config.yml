@@ -29,6 +29,7 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 # Assetic Configuration
 assetic:
@@ -85,3 +86,7 @@ fos_rest:
         failed_validation: HTTP_BAD_REQUEST
         default_engine: twig
         view_response_listener: force
+    routing_loader:
+        default_format: json
+    routing_loader:
+        include_format: false
