@@ -9,17 +9,37 @@ class PostHandlerTest extends \PHPUnit_Framework_TestCase
 {
     const POST_CLASS = 'AppBundle\Tests\Handler\DummyPost';
 
+    /**
+     * @var AppBundle\Handler\PostHandler $postHandler
+     */
     private $postHandler;
 
+    /**
+    * @var Doctrine\Common\Persistence\ObjectManager $om
+    */
     private $om;
 
+    /**
+    * @var AppBundle\Entity\Post $entityClass
+    */
+    private $entityClass;
+
+    /**
+    * @var Doctrine\ORM\EntityRepository $repository
+    */
     private $repository;
+
+    /**
+    * @var Symfony\Component\Form\FormFactoryInterface $formFactory
+    */
+    private $formFactory;
 
     public function setUp()
     {
         $class = $this->getMock('Doctrine\Common\Persistence\Mapping\ClassMetadata');
         $this->om = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
         $this->repository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+        $this->formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
         $this->om->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo(static::POST_CLASS))
@@ -36,13 +56,24 @@ class PostHandlerTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $id = 1;
-        $post = new Post();
+        $post = $this->getPost();
         $this->repository->expects($this->once())
              ->method('find')
              ->with($this->equalTo($id))
              ->will($this->returnValue($post));
-        $this->postHandler = new PostHandler($this->om, static::POST_CLASS);
+        $this->postHandler = new PostHandler($this->om, static::POST_CLASS, $this->formFactory);
         $this->postHandler->get($id);
+    }
+
+    protected function createPostHandler($objectManager, $postClass, $formFactory)
+    {
+        return new PageHandler($objectManager, $pageClass, $formFactory);
+    }
+
+    protected function getPost()
+    {
+        $postClass = static::POST_CLASS;
+        return new $postClass();
     }
 }
 

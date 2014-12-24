@@ -15,4 +15,15 @@ interface PostHandlerInterface
     * @return PostInterface
     */
     public function get($id);
+
+    /**
+     * Create a new post
+     *
+     * @api
+     *
+     * @param array $parameters
+     *
+     * @return PostInterface
+     */
+    public function post(array $parameters);
 }

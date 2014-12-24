@@ -12,3 +12,4 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - AppBundle\Entity\Post
+            - "@form.factory"
