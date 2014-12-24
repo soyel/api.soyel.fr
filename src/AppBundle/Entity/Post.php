@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace BlogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert;
 
-use AppBundle\Model\PostInterface;
+use BlogBundle\Model\PostInterface;
 
 /**
  * Post

@@ -1,16 +1,16 @@
 <?php
 
-namespace AppBundle\Tests\Handler;
+namespace BlogBundle\Tests\Handler;
 
-use AppBundle\Entity\Post,
-    AppBundle\Handler\PostHandler;
+use BlogBundle\Entity\Post,
+    BlogBundle\Handler\PostHandler;
 
 class PostHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    const POST_CLASS = 'AppBundle\Tests\Handler\DummyPost';
+    const POST_CLASS = 'BlogBundle\Tests\Handler\DummyPost';
 
     /**
-     * @var AppBundle\Handler\PostHandler $postHandler
+     * @var BlogBundle\Handler\PostHandler $postHandler
      */
     private $postHandler;
 
@@ -20,7 +20,7 @@ class PostHandlerTest extends \PHPUnit_Framework_TestCase
     private $om;
 
     /**
-    * @var AppBundle\Entity\Post $entityClass
+    * @var BlogBundle\Entity\Post $entityClass
     */
     private $entityClass;
 

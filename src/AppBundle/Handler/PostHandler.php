@@ -1,14 +1,14 @@
 <?php
 
-namespace AppBundle\Handler;
+namespace BlogBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager,
     Symfony\Component\Form\FormFactoryInterface;
 
-use AppBundle\Model\PostInterface,
-    AppBundle\Model\PostHandlerInterface,
-    AppBundle\Form\Type\PostType,
-    AppBundle\Exception\InvalidFormException;
+use BlogBundle\Model\PostInterface,
+    BlogBundle\Model\PostHandlerInterface,
+    BlogBundle\Form\Type\PostType,
+    BlogBundle\Exception\InvalidFormException;
 
 class PostHandler implements PostHandlerInterface
 {
@@ -18,7 +18,7 @@ class PostHandler implements PostHandlerInterface
     private $om;
 
     /**
-     * @var AppBundle\Entity\Post $entityClass
+     * @var BlogBundle\Entity\Post $entityClass
      */
     private $entityClass;
 
@@ -34,7 +34,7 @@ class PostHandler implements PostHandlerInterface
 
     /**
      * @param Doctrine\Common\Persistence\ObjectManager     $om
-     * @param AppBundle\Entity\Post                         $entityClass
+     * @param BlogBundle\Entity\Post                         $entityClass
      * @param Symfony\Component\Form\FormFactoryInterface   $formFactory
      */
     public function __construct(ObjectManager $om, $entityClass, FormFactoryInterface $formFactory)
@@ -79,7 +79,7 @@ class PostHandler implements PostHandlerInterface
      *
      * @return PostInterface
      *
-     * @throws \AppBundle\Exception\InvalidFormException
+     * @throws \BlogBundle\Exception\InvalidFormException
      */
     private function processForm(PostInterface $post, array $parameters, $method = "PUT")
     {
