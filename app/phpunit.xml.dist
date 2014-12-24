@@ -5,8 +5,15 @@
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
          backupGlobals="false"
          colors="true"
+<<<<<<< HEAD
          bootstrap="bootstrap.php.cache"
 >
+=======
+         bootstrap="bootstrap.php.cache">
+    <logging>
+      <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+>>>>>>> develop
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>../src/*/*Bundle/Tests</directory>
@@ -23,12 +30,13 @@
 
     <filter>
         <whitelist>
-            <directory>../src</directory>
+            <directory suffix=".php">../src</directory>
             <exclude>
-                <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../src/*/*Bundle/Tests</directory>
-                <directory>../src/*/Bundle/*Bundle/Resources</directory>
-                <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <file>../src/AppBundle/AppBundle.php</file>
+                <directory>../src/*Bundle/Tests</directory>
+                <directory>../src/*Bundle/Entity</directory>
+                <directory>../src/*Bundle/Model</directory>
+                <directory>../src/*Bundle/Form/Type</directory>
             </exclude>
         </whitelist>
     </filter>
