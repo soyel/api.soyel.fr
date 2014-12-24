@@ -44,6 +44,20 @@ class PostControllerTest extends WebTestCase
         $this->assertJsonResponse($this->client->getResponse(), 201, false);
     }
 
+    public function testJsonPostShouldReturn400WithBadParameters()
+    {
+        $this->client = static::createClient();
+        $this->client->request(
+            'POST',
+            '/api/v1/pages.json',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"foo":"bar"}'
+        );
+        $this->assertJsonResponse($this->client->getResponse(), 400, false);
+    }
+
     protected function assertJsonResponse($response, $statusCode = 200)
     {
         $this->assertEquals(
