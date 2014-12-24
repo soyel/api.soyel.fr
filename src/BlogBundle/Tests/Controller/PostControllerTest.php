@@ -19,7 +19,7 @@ class PostControllerTest extends WebTestCase
         $fixtures = array('BlogBundle\Tests\Fixtures\Entity\LoadPostData');
         $this->loadFixtures($fixtures);
         $post = array_pop(LoadPostData::$posts);
-        $route =  $this->getUrl('api_v1_get_post', array('post' => $post->getId(), '_format' => 'json'));
+        $route =  $this->getUrl('api_v1_get_post', array('id' => $post->getId(), '_format' => 'json'));
         $this->client->request('GET', $route);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);
