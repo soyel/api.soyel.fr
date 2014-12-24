@@ -27,7 +27,9 @@
         <whitelist>
             <directory suffix=".php">../src</directory>
             <exclude>
-                <file>../src/*Bundle/*Bundle.php</file>
+                <file>../src/AppBundle/AppBundle.php</file>
+                <directory>../src/*Bundle/Tests</directory>
+                <directory>../src/*Bundle/Entity</directory>
                 <directory>../src/*Bundle/Model</directory>
                 <directory>../src/*Bundle/Form/Type</directory>
             </exclude>
