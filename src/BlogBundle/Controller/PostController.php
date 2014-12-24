@@ -33,17 +33,17 @@ class PostController extends FOSRestController
      *
      * @FOSRest\View(templateVar="post")
      *
-     * @param Post    $post    the post id
+     * @param Post    $id    the post id
      *
      * @return array
      *
      * @throws NotFoundHttpException when post not exist
      */
-    public function getPostAction(Post $post)
+    public function getPostAction(Post $id)
     {
         $post = $this->container
-        ->get('post_handler')
-        ->get($post);
+                     ->get('post_handler')
+                     ->get($id);
         $statusCode = 200;
         $view = $this->view($post, $statusCode);
         return $this->handleView($view);
@@ -78,8 +78,8 @@ class PostController extends FOSRestController
                 $request->request->all()
             );
             $routeOptions = array(
-                'post' => $newPost->getId(),
-                '_format' => $request->get('_format')
+                'id'        => $newPost->getId(),
+                '_format'   => $request->get('_format')
             );
             return $this->routeRedirectView('api_v1_get_post', $routeOptions, Codes::HTTP_CREATED);
         } catch (InvalidFormException $exception) {
