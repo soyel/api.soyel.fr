@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Tests\Fixtures\Entity;
+namespace BlogBundle\Tests\Fixtures\Entity;
 
 use Doctrine\Common\DataFixtures\FixtureInterface,
     Doctrine\Common\Persistence\ObjectManager;
 
-use AppBundle\Entity\Post;
+use BlogBundle\Entity\Post;
 
 class LoadPostData implements FixtureInterface
 {

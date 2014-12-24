@@ -1,7 +1,7 @@
 <?php
-namespace AppBundle\Model;
+namespace BlogBundle\Model;
 
-use AppBundle\Model\PostInterface;
+use BlogBundle\Model\PostInterface;
 
 interface PostHandlerInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Exception;
+namespace BlogBundle\Exception;
 
 class InvalidFormException extends \RuntimeException
 {
