@@ -2,7 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Symfony\Component\Validator\Constraints as Assert;
 
 use AppBundle\Model\PostInterface;
 
@@ -26,6 +27,13 @@ class Post implements PostInterface
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 255,
+     *      minMessage = "Your title must be at least {{ limit }} characters long",
+     *      maxMessage = "Your title cannot be longer than {{ limit }} characters long"
+     * )
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
@@ -33,6 +41,11 @@ class Post implements PostInterface
     /**
      * @var string
      *
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 3,
+     *      minMessage = "Your content must be at least {{ limit }} characters long"
+     * )
      * @ORM\Column(name="content", type="text")
      */
     private $content;
