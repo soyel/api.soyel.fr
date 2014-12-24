@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace BlogBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request,
     FOS\RestBundle\Controller\FOSRestController,
@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Request,
     FOS\RestBundle\Controller\Annotations\NamePrefix,
     Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use AppBundle\Entity\Post,
-    AppBundle\Form\Type\PostType,
-    AppBundle\Exception\InvalidFormException;
+use BlogBundle\Entity\Post,
+    BlogBundle\Form\Type\PostType,
+    BlogBundle\Exception\InvalidFormException;
 
 /**
  * @NamePrefix("api_v1_")
@@ -24,7 +24,7 @@ class PostController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Gets a Post for a given id",
-     *   output = "AppBundle\Entity\Post",
+     *   output = "BlogBundle\Entity\Post",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when the post is not found"
@@ -33,17 +33,17 @@ class PostController extends FOSRestController
      *
      * @FOSRest\View(templateVar="post")
      *
-     * @param Post    $post    the post id
+     * @param Post    $id    the post id
      *
      * @return array
      *
      * @throws NotFoundHttpException when post not exist
      */
-    public function getPostAction(Post $post)
+    public function getPostAction(Post $id)
     {
         $post = $this->container
-        ->get('post_handler')
-        ->get($post);
+                     ->get('post_handler')
+                     ->get($id);
         $statusCode = 200;
         $view = $this->view($post, $statusCode);
         return $this->handleView($view);
@@ -55,7 +55,7 @@ class PostController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Creates a new post from the submitted data.",
-     *   input = "AppBundle\Form\Type\PostType",
+     *   input = "BlogBundle\Form\Type\PostType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -78,8 +78,8 @@ class PostController extends FOSRestController
                 $request->request->all()
             );
             $routeOptions = array(
-                'post' => $newPost->getId(),
-                '_format' => $request->get('_format')
+                'id'        => $newPost->getId(),
+                '_format'   => $request->get('_format')
             );
             return $this->routeRedirectView('api_v1_get_post', $routeOptions, Codes::HTTP_CREATED);
         } catch (InvalidFormException $exception) {

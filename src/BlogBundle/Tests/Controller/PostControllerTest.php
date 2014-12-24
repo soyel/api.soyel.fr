@@ -1,10 +1,10 @@
 <?php
 
-namespace AppBundle\Tests\Controller;
+namespace BlogBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase;
 
-use AppBundle\Tests\Fixtures\Entity\LoadPostData;
+use BlogBundle\Tests\Fixtures\Entity\LoadPostData;
 
 class PostControllerTest extends WebTestCase
 {
@@ -16,10 +16,10 @@ class PostControllerTest extends WebTestCase
     public function testGet()
     {
         $this->client = static::createClient();
-        $fixtures = array('AppBundle\Tests\Fixtures\Entity\LoadPostData');
+        $fixtures = array('BlogBundle\Tests\Fixtures\Entity\LoadPostData');
         $this->loadFixtures($fixtures);
         $post = array_pop(LoadPostData::$posts);
-        $route =  $this->getUrl('api_v1_get_post', array('post' => $post->getId(), '_format' => 'json'));
+        $route =  $this->getUrl('api_v1_get_post', array('id' => $post->getId(), '_format' => 'json'));
         $this->client->request('GET', $route);
         $response = $this->client->getResponse();
         $this->assertJsonResponse($response, 200);

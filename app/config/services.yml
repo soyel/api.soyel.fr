@@ -5,11 +5,11 @@ parameters:
 
 services:
 #    service_name:
-#        class: AppBundle\Directory\ClassName
+#        class: BlogBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     post_handler:
-        class: AppBundle\Handler\PostHandler
+        class: BlogBundle\Handler\PostHandler
         arguments:
             - "@doctrine.orm.entity_manager"
-            - AppBundle\Entity\Post
+            - BlogBundle\Entity\Post
             - "@form.factory"
