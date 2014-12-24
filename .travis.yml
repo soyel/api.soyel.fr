@@ -13,11 +13,11 @@ branches:
       - develop
 
 before_script:
-  - composer install
+  - composer install --no-interaction --prefer-source
   - php app/console doctrine:database:create
   - php app/console doctrine:schema:create
 
 after_script:
-  - php app/console doctrine:database:drop --force
+  - bin/coveralls -v
 
-script: bin/phpunit -c app
+script: bin/phpunit -c app --coverage-clover build/logs/clover.xml
