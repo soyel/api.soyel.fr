@@ -65,6 +65,10 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
 
+# Sensio Framwork Extra Configuration
+sensio_framework_extra:
+    view:    { annotations: false }
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -74,19 +78,16 @@ swiftmailer:
     spool:     { type: memory }
 
 fos_rest:
-    disable_csrf_role:    true
+    disable_csrf_role: ROLE_API
     view:
         formats:
-            rss: false
-            xml: true
             json: true
+            xml:  true
             html: false
         templating_formats:
+            html: false
+        force_redirects:
             html: false
         failed_validation: HTTP_BAD_REQUEST
         default_engine: twig
         view_response_listener: force
-    routing_loader:
-        default_format: json
-    routing_loader:
-        include_format: false

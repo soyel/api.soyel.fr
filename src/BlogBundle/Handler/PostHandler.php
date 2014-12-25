@@ -71,6 +71,32 @@ class PostHandler implements PostHandlerInterface
     }
 
     /**
+    * Edit a Post, or create if not exist.
+    *
+    * @param PostInterface $post
+    * @param array         $parameters
+    *
+    * @return PostInterface
+    */
+    public function put(PostInterface $post, array $parameters)
+    {
+        return $this->processForm($post, $parameters, 'PUT');
+    }
+
+    /**
+    * Partially update a Post.
+    *
+    * @param PostInterface $post
+    * @param array         $parameters
+    *
+    * @return PostInterface
+    */
+    public function patch(PostInterface $post, array $parameters)
+    {
+        return $this->processForm($post, $parameters, 'PATCH');
+    }
+
+    /**
      * Processes the form.
      *
      * @param PostInterface $post
@@ -79,7 +105,7 @@ class PostHandler implements PostHandlerInterface
      *
      * @return PostInterface
      *
-     * @throws \BlogBundle\Exception\InvalidFormException
+     * @throws InvalidFormException
      */
     private function processForm(PostInterface $post, array $parameters, $method = "PUT")
     {
