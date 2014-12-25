@@ -2,7 +2,8 @@
 
 namespace BlogBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase,
+    FOS\RestBundle\Util\Codes;
 
 use BlogBundle\Tests\Fixtures\Entity\LoadPostData;
 
@@ -17,7 +18,7 @@ class PostControllerTest extends WebTestCase
         $route =  $this->getUrl('api_v1_get_post', array('id' => $post->getId(), '_format' => 'json'));
         $this->client->request('GET', $route);
         $response = $this->client->getResponse();
-        $this->assertJsonResponse($response, 200);
+        $this->assertJsonResponse($response, Codes::HTTP_OK);
         $content = $response->getContent();
         $decoded = json_decode($content, true);
         $this->assertTrue(isset($decoded['id']));
@@ -36,7 +37,7 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE' => 'application/json'),
             '{"title":"foo","content":"bar"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 201, false);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED, false);
     }
 
     public function testJsonPostBadParameters()
@@ -50,7 +51,7 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE'  => 'application/json'),
             '{"foo":"bar"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 400);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_BAD_REQUEST);
     }
 
     public function testJsonPutShouldModify()
@@ -65,7 +66,7 @@ class PostControllerTest extends WebTestCase
             sprintf('/v1/posts/%d.json', $post->getId()),
             array('ACCEPT' => 'application/json')
         );
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(), $this->client->getResponse()->getContent());
+        $this->assertEquals(Codes::HTTP_OK, $this->client->getResponse()->getStatusCode(), $this->client->getResponse()->getContent());
         $this->client->request(
             'PUT',
             sprintf('/v1/posts/%d.json', $post->getId()),
@@ -74,7 +75,7 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE'  => 'application/json'),
             '{"title":"foobar","content":"foobar"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 204, false, null);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_SEE_OTHER, false);
         $this->assertTrue(
             $this->client->getResponse()->headers->contains(
                 'Location',
@@ -102,7 +103,7 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE'  => 'application/json'),
             '{"title":"barfoo","content":"barfoo"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 201, false);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_CREATED, false);
     }
 
     public function testJsonPutBadParameters()
@@ -117,7 +118,7 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE'  => 'application/json'),
             '{"bar":"foo"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 400);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_BAD_REQUEST);
     }
 
     public function testJsonPatch()
@@ -135,7 +136,7 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE'  => 'application/json', 'ACCEPT' => 'application/json'),
             '{"content":"def"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 204, false, null);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_SEE_OTHER, false);
         $this->assertTrue(
             $this->client->getResponse()->headers->contains(
                 'Location',
@@ -160,16 +161,19 @@ class PostControllerTest extends WebTestCase
             array('CONTENT_TYPE'  => 'application/json'),
             '{"foobar":"foobar"}'
         );
-        $this->assertJsonResponse($this->client->getResponse(), 400);
+        $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_BAD_REQUEST);
     }
 
-    protected function assertJsonResponse($response, $statusCode = 200, $checkValidJson =  true, $contentType = 'application/json')
+    protected function assertJsonResponse($response, $statusCode = Codes::HTTP_OK, $checkValidJson =  true, $contentType = 'application/json')
     {
         $this->assertEquals(
         $statusCode, $response->getStatusCode(),
             $response->getContent()
         );
-        $this->assertSame($response->headers->get('Content-Type'), $contentType);
+        $this->assertTrue(
+            $response->headers->contains('Content-Type', $contentType),
+            $response->headers
+        );
         if ($checkValidJson) {
             $decode = json_decode($response->getContent());
             $this->assertTrue(($decode != null && $decode != false),

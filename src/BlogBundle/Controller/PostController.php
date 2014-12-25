@@ -54,7 +54,7 @@ class PostController extends FOSRestController
      *   description = "Creates a new post from the submitted data.",
      *   input = "BlogBundle\Form\Type\PostType",
      *   statusCodes = {
-     *     200 = "Returned when successful",
+     *     201 = "Returned when the Post is created",
      *     400 = "Returned when the form has errors"
      *   }
      * )
@@ -92,7 +92,7 @@ class PostController extends FOSRestController
     *   input = "Acme\DemoBundle\Form\PostType",
     *   statusCodes = {
     *     201 = "Returned when the Post is created",
-    *     204 = "Returned when successful",
+    *     303 = "Returned when the Post is edited",
     *     400 = "Returned when the form has errors"
     *   }
     * )
@@ -117,7 +117,7 @@ class PostController extends FOSRestController
                     $request->request->all()
                 );
             } else {
-                $statusCode = Codes::HTTP_NO_CONTENT;
+                $statusCode = Codes::HTTP_SEE_OTHER;
                 $post = $this->container->get('post_handler')->put(
                     $post,
                     $request->request->all()
@@ -140,7 +140,7 @@ class PostController extends FOSRestController
     *   resource = true,
     *   input = "Acme\DemoBundle\Form\PostType",
     *   statusCodes = {
-    *     204 = "Returned when successful",
+    *     303 = "Returned when the Post was successfully patched",
     *     400 = "Returned when the form has errors"
     *   }
     * )
@@ -167,7 +167,7 @@ class PostController extends FOSRestController
                 'id' => $post->getId(),
                 '_format' => $request->get('_format')
             );
-            return $this->routeRedirectView('api_v1_get_post', $routeOptions, Codes::HTTP_NO_CONTENT)
+            return $this->routeRedirectView('api_v1_get_post', $routeOptions, Codes::HTTP_SEE_OTHER)
                         ->setHeader('CONTENT_TYPE', 'application/json');
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
