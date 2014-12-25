@@ -39,10 +39,23 @@ class PostHandler implements PostHandlerInterface
      */
     public function __construct(ObjectManager $om, $entityClass, FormFactoryInterface $formFactory)
     {
-        $this->om = $om;
-        $this->entityClass = $entityClass;
-        $this->repository = $this->om->getRepository($this->entityClass);
-        $this->formFactory = $formFactory;
+        $this->om           = $om;
+        $this->entityClass  = $entityClass;
+        $this->repository   = $this->om->getRepository($this->entityClass);
+        $this->formFactory  = $formFactory;
+    }
+
+    /**
+     * Get a list of Pages.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function all($limit = 5, $offset = 0, $orderby = null)
+    {
+        return $this->repository->findBy(array(), $orderby, $limit, $offset);
     }
 
     /**
@@ -94,6 +107,17 @@ class PostHandler implements PostHandlerInterface
     public function patch(PostInterface $post, array $parameters)
     {
         return $this->processForm($post, $parameters, 'PATCH');
+    }
+
+    /**
+    * Delete a Post.
+    *
+    * @param PostInterface
+    */
+    public function delete(PostInterface $post)
+    {
+        $this->om->remove($post);
+        $this->om->flush($post);
     }
 
     /**
