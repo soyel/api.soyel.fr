@@ -4,6 +4,7 @@ namespace BlogBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request,
     FOS\RestBundle\Controller\FOSRestController,
+    FOS\RestBundle\Request\ParamFetcherInterface,
     FOS\RestBundle\Util\Codes,
     FOS\RestBundle\Controller\Annotations as FOSRest,
     Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -18,6 +19,33 @@ use BlogBundle\Entity\Post,
 class PostController extends FOSRestController
 {
     /**
+     * List all posts.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     *
+     * @FOSRest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing posts.")
+     * @FOSRest\QueryParam(name="limit", requirements="\d+", default="5", description="How many posts to return.")
+     *
+     * @FOSRest\View(templateVar="posts")
+     *
+     * @param Request               $request      the request object
+     * @param ParamFetcherInterface $paramFetcher param fetcher service
+     *
+     * @return array
+     */
+    public function getPostsAction(Request $request, ParamFetcherInterface $paramFetcher)
+    {
+        $offset = $paramFetcher->get('offset') == null ? 0 : $paramFetcher->get('offset');
+        $limit = $paramFetcher->get('limit');
+        return $this->container->get('post_handler')->all($limit, $offset);
+    }
+
+    /**
      * Get single Post,
      *
      * @ApiDoc(
@@ -29,7 +57,7 @@ class PostController extends FOSRestController
      *     404 = "Returned when the post is not found"
      *   }
      * )
-     * @FOSRest\Route(requirements={"_format"="json|xml"})
+     *
      * @FOSRest\View(templateVar="post")
      *
      * @param Post    $id    the post id
@@ -97,9 +125,7 @@ class PostController extends FOSRestController
     *   }
     * )
     *
-    * @FOSRest\View(
-    *  templateVar = "form"
-    * )
+    * @FOSRest\View(templateVar = "form")
     *
     * @param Request $request the request object
     * @param int     $id      the post id
@@ -140,15 +166,13 @@ class PostController extends FOSRestController
     *   resource = true,
     *   input = "Acme\DemoBundle\Form\PostType",
     *   statusCodes = {
-    *     303 = "Returned when the Post was successfully patched",
+    *     204 = "Returned when the Post was successfully patched",
     *     400 = "Returned when the form has errors",
     *     404 = "Returned when the Post does not exist"
     *   }
     * )
     *
-    * @FOSRest\View(
-    *  templateVar = "form"
-    * )
+    * @FOSRest\View(templateVar = "form")
     *
     * @param Request $request the request object
     * @param Post    $id      the post id
@@ -164,12 +188,7 @@ class PostController extends FOSRestController
                 $this->container->get('post_handler')->get($id),
                 $request->request->all()
             );
-            $routeOptions = array(
-                'id' => $post->getId(),
-                '_format' => $request->get('_format')
-            );
-            return $this->routeRedirectView('api_v1_get_post', $routeOptions, Codes::HTTP_SEE_OTHER)
-                        ->setHeader('CONTENT_TYPE', 'application/json');
+            return $this->view($post, Codes::HTTP_NO_CONTENT);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
@@ -183,14 +202,12 @@ class PostController extends FOSRestController
     *   resource = true,
     *   description = "Delete a Post for a given id.",
     *   statusCodes = {
-    *     200 = "Returned when the Post was successfully deleted",
+    *     204 = "Returned when the Post was successfully deleted",
     *     404 = "Returned when the Post does not exist"
     *   }
     * )
     *
-    * @FOSRest\View(
-    *  templateVar = "data"
-    * )
+    * @FOSRest\View(templateVar = "data")
     *
     * @param Request $request the request object
     * @param Post    $id      the post id
