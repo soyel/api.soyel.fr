@@ -134,14 +134,15 @@ class PostController extends FOSRestController
     }
 
     /**
-    * Update existing post from the submitted data or create a new post at a specific location.
+    * Update partially an existing post from the submitted data.
     *
     * @ApiDoc(
     *   resource = true,
     *   input = "Acme\DemoBundle\Form\PostType",
     *   statusCodes = {
     *     303 = "Returned when the Post was successfully patched",
-    *     400 = "Returned when the form has errors"
+    *     400 = "Returned when the form has errors",
+    *     404 = "Returned when the Post does not exist"
     *   }
     * )
     *
@@ -172,5 +173,37 @@ class PostController extends FOSRestController
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
+    }
+
+
+    /**
+    * Delete a single Post.
+    *
+    * @ApiDoc(
+    *   resource = true,
+    *   description = "Delete a Post for a given id.",
+    *   statusCodes = {
+    *     200 = "Returned when the Post was successfully deleted",
+    *     404 = "Returned when the Post does not exist"
+    *   }
+    * )
+    *
+    * @FOSRest\View(
+    *  templateVar = "data"
+    * )
+    *
+    * @param Request $request the request object
+    * @param Post    $id      the post id
+    *
+    * @return View
+    *
+    * @throws NotFoundHttpException when post not exist
+    */
+    public function deletePostAction(Post $id)
+    {
+        $post = $this->container->get('post_handler')->delete(
+            $this->container->get('post_handler')->get($id)
+        );
+        $this->view($post, Codes::HTTP_NO_CONTENT);
     }
 }

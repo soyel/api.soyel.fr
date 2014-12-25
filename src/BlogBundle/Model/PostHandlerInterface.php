@@ -28,22 +28,35 @@ interface PostHandlerInterface
     public function post(array $parameters);
 
     /**
-    * Edit a Post, or create if not exist.
-    *
-    * @param PostInterface $post
-    * @param array         $parameters
-    *
-    * @return PostInterface
-    */
+     * Edit a Post, or create if not exist.
+     *
+     * @api
+     *
+     * @param PostInterface $post
+     * @param array         $parameters
+     *
+     * @return PostInterface
+     */
     public function put(PostInterface $post, array $parameters);
 
     /**
-    * Partially update a Post.
-    *
-    * @param PostInterface $post
-    * @param array         $parameters
-    *
-    * @return PostInterface
-    */
+     * Partially update a Post.
+     *
+     * @api
+     *
+     * @param PostInterface $post
+     * @param array         $parameters
+     *
+     * @return PostInterface
+     */
     public function patch(PostInterface $post, array $parameters);
+
+    /**
+     * Delete a Post.
+     *
+     * @api
+     *
+     * @param PostInterface
+     */
+    public function delete(PostInterface $post);
 }

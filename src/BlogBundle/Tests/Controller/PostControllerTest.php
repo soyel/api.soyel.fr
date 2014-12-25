@@ -54,7 +54,7 @@ class PostControllerTest extends WebTestCase
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_BAD_REQUEST);
     }
 
-    public function testJsonPutShouldModify()
+    public function testJsonPutModify()
     {
         $this->client = static::createClient();
         $fixtures = array('BlogBundle\Tests\Fixtures\Entity\LoadPostData');
@@ -85,7 +85,7 @@ class PostControllerTest extends WebTestCase
         );
     }
 
-    public function testJsonPutShouldCreate()
+    public function testJsonPutCreate()
     {
         $id = 0;
         $this->client = static::createClient();
@@ -162,6 +162,28 @@ class PostControllerTest extends WebTestCase
             '{"foobar":"foobar"}'
         );
         $this->assertJsonResponse($this->client->getResponse(), Codes::HTTP_BAD_REQUEST);
+    }
+
+    public function testDelete()
+    {
+        $this->client = static::createClient();
+        $fixtures = array('BlogBundle\Tests\Fixtures\Entity\LoadPostData');
+        $this->loadFixtures($fixtures);
+        $post = array_pop(LoadPostData::$posts);
+        $route =  $this->getUrl('api_v1_get_post', array('id' => $post->getId(), '_format' => 'json'));
+        $this->client->request('DELETE', $route);
+        $response = $this->client->getResponse();
+        $this->assertEquals($this->client->getResponse()->getStatusCode(), Codes::HTTP_NO_CONTENT);
+    }
+
+    public function testDeleteNotFound()
+    {
+        $id = 0;
+        $this->client = static::createClient();
+        $route =  $this->getUrl('api_v1_get_post', array('id' => $id, '_format' => 'json'));
+        $this->client->request('DELETE', $route);
+        $response = $this->client->getResponse();
+        $this->assertJsonResponse($response, Codes::HTTP_NOT_FOUND);
     }
 
     protected function assertJsonResponse($response, $statusCode = Codes::HTTP_OK, $checkValidJson =  true, $contentType = 'application/json')

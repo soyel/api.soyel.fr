@@ -97,6 +97,17 @@ class PostHandler implements PostHandlerInterface
     }
 
     /**
+    * Delete a Post.
+    *
+    * @param PostInterface
+    */
+    public function delete(PostInterface $post)
+    {
+        $this->om->remove($post);
+        $this->om->flush($post);
+    }
+
+    /**
      * Processes the form.
      *
      * @param PostInterface $post
