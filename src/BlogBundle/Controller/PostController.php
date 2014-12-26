@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request,
     Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use BlogBundle\Entity\Post,
-    BlogBundle\Form\Type\PostType,
     BlogBundle\Exception\InvalidFormException;
 
 /**
@@ -40,7 +39,7 @@ class PostController extends FOSRestController
      */
     public function getPostsAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $offset = $paramFetcher->get('offset') == null ? 0 : $paramFetcher->get('offset');
+        $offset = $paramFetcher->get('offset') === null ? 0 : $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
         return $this->container->get('post_handler')->all($limit, $offset);
     }
@@ -117,7 +116,7 @@ class PostController extends FOSRestController
     *
     * @ApiDoc(
     *   resource = true,
-    *   input = "Acme\DemoBundle\Form\PostType",
+    *   input = "BlogBundle\Form\Type\PostType",
     *   statusCodes = {
     *     201 = "Returned when the Post is created",
     *     303 = "Returned when the Post is edited",
@@ -164,7 +163,7 @@ class PostController extends FOSRestController
     *
     * @ApiDoc(
     *   resource = true,
-    *   input = "Acme\DemoBundle\Form\PostType",
+    *   input = "BlogBundle\Form\Type\PostType",
     *   statusCodes = {
     *     204 = "Returned when the Post was successfully patched",
     *     400 = "Returned when the form has errors",
