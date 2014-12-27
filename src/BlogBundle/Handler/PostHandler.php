@@ -2,13 +2,12 @@
 
 namespace BlogBundle\Handler;
 
-use Doctrine\Common\Persistence\ObjectManager,
-    Symfony\Component\Form\FormFactoryInterface;
-
-use BlogBundle\Model\PostInterface,
-    BlogBundle\Model\PostHandlerInterface,
-    BlogBundle\Form\Type\PostType,
-    BlogBundle\Exception\InvalidFormException;
+use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\FormFactoryInterface;
+use BlogBundle\Model\PostInterface;
+use BlogBundle\Model\PostHandlerInterface;
+use BlogBundle\Form\Type\PostType;
+use BlogBundle\Exception\InvalidFormException;
 
 class PostHandler implements PostHandlerInterface
 {
@@ -33,9 +32,9 @@ class PostHandler implements PostHandlerInterface
     private $formFactory;
 
     /**
-     * @param Doctrine\Common\Persistence\ObjectManager     $om
-     * @param BlogBundle\Entity\Post                         $entityClass
-     * @param Symfony\Component\Form\FormFactoryInterface   $formFactory
+     * @param Doctrine\Common\Persistence\ObjectManager   $om
+     * @param BlogBundle\Entity\Post                      $entityClass
+     * @param Symfony\Component\Form\FormFactoryInterface $formFactory
      */
     public function __construct(ObjectManager $om, $entityClass, FormFactoryInterface $formFactory)
     {
@@ -80,6 +79,7 @@ class PostHandler implements PostHandlerInterface
     public function post(array $parameters)
     {
         $post = $this->createPost();
+
         return $this->processForm($post, $parameters, 'POST');
     }
 
@@ -139,6 +139,7 @@ class PostHandler implements PostHandlerInterface
             $post = $form->getData();
             $this->om->persist($post);
             $this->om->flush($post);
+
             return $post;
         }
         throw new InvalidFormException('Invalid submitted data', $form);

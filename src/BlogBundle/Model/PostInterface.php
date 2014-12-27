@@ -2,7 +2,7 @@
 
 namespace BlogBundle\Model;
 
-Interface PostInterface
+interface PostInterface
 {
     /**
     * Set title

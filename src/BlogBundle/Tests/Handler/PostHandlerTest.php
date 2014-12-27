@@ -2,8 +2,8 @@
 
 namespace BlogBundle\Tests\Handler;
 
-use BlogBundle\Entity\Post,
-    BlogBundle\Handler\PostHandler;
+use BlogBundle\Entity\Post;
+use BlogBundle\Handler\PostHandler;
 
 class PostHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -247,7 +247,7 @@ class PostHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * Get a list of Posts.
      *
-     * @param int   $maxPosts   The number of Posts to retrieve.
+     * @param int $maxPosts The number of Posts to retrieve.
      *
      * @return array
      */
@@ -255,7 +255,7 @@ class PostHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $posts = array();
 
-        for($i = 0; $i < $maxPosts; $i++) {
+        for ($i = 0; $i < $maxPosts; $i++) {
             $posts[] = $this->getPost();
         }
 

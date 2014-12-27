@@ -2,9 +2,8 @@
 
 namespace BlogBundle\Tests\Controller;
 
-use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase,
-    FOS\RestBundle\Util\Codes;
-
+use Liip\FunctionalTestBundle\Test\WebTestCase as WebTestCase;
+use FOS\RestBundle\Util\Codes;
 use BlogBundle\Tests\Fixtures\Entity\LoadPostData;
 
 class PostControllerTest extends WebTestCase
@@ -284,7 +283,7 @@ class PostControllerTest extends WebTestCase
         if ($checkValidJson) {
             $decode = json_decode($response->getContent());
             $this->assertTrue(($decode != null && $decode != false),
-                'is response valid json: [' . $response->getContent() . ']'
+                'is response valid json: ['.$response->getContent().']'
             );
         }
     }

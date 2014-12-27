@@ -2,18 +2,17 @@
 
 namespace BlogBundle\Tests\Fixtures\Entity;
 
-use Doctrine\Common\DataFixtures\FixtureInterface,
-    Doctrine\Common\Persistence\ObjectManager;
-
-use BlogBundle\Entity\Post,
-    BlogBundle\Model\PostInterface;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use BlogBundle\Entity\Post;
+use BlogBundle\Model\PostInterface;
 
 class LoadPostData implements FixtureInterface
 {
     /**
      * @var array $post
      */
-    static public $posts = array();
+    public static $posts = array();
 
     /**
      * Load fixtures.

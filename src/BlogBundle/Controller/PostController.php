@@ -2,15 +2,14 @@
 
 namespace BlogBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request,
-    FOS\RestBundle\Controller\FOSRestController,
-    FOS\RestBundle\Request\ParamFetcherInterface,
-    FOS\RestBundle\Util\Codes,
-    FOS\RestBundle\Controller\Annotations as FOSRest,
-    Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
-use BlogBundle\Entity\Post,
-    BlogBundle\Exception\InvalidFormException;
+use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\Util\Codes;
+use FOS\RestBundle\Controller\Annotations as FOSRest;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use BlogBundle\Entity\Post;
+use BlogBundle\Exception\InvalidFormException;
 
 /**
  * @FOSRest\NamePrefix("api_v1_")
@@ -41,6 +40,7 @@ class PostController extends FOSRestController
     {
         $offset = $paramFetcher->get('offset') === null ? 0 : $paramFetcher->get('offset');
         $limit = $paramFetcher->get('limit');
+
         return $this->container->get('post_handler')->all($limit, $offset);
     }
 
@@ -59,7 +59,7 @@ class PostController extends FOSRestController
      *
      * @FOSRest\View(templateVar="post")
      *
-     * @param Post    $id    the post id
+     * @param Post $id the post id
      *
      * @return array
      *
@@ -70,6 +70,7 @@ class PostController extends FOSRestController
         $post = $this->container
                      ->get('post_handler')
                      ->get($id);
+
         return $this->view($post, 200);
     }
 
@@ -103,8 +104,9 @@ class PostController extends FOSRestController
             );
             $routeOptions = array(
                 'id'        => $newPost->getId(),
-                '_format'   => $request->get('_format')
+                '_format'   => $request->get('_format'),
             );
+
             return $this->routeRedirectView('api_v1_get_post', $routeOptions, Codes::HTTP_CREATED);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
@@ -150,8 +152,9 @@ class PostController extends FOSRestController
             }
             $routeOptions = array(
                 'id'        => $post->getId(),
-                '_format'   => $request->get('_format')
+                '_format'   => $request->get('_format'),
             );
+
             return $this->routeRedirectView('api_v1_get_post', $routeOptions, $statusCode);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
@@ -187,12 +190,12 @@ class PostController extends FOSRestController
                 $this->container->get('post_handler')->get($id),
                 $request->request->all()
             );
+
             return $this->view($post, Codes::HTTP_NO_CONTENT);
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
     }
-
 
     /**
     * Delete a single Post.

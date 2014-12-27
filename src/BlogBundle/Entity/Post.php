@@ -2,9 +2,8 @@
 
 namespace BlogBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM,
-    Symfony\Component\Validator\Constraints as Assert;
-
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use BlogBundle\Model\PostInterface;
 
 /**
@@ -50,7 +49,6 @@ class Post implements PostInterface
      */
     private $content;
 
-
     /**
      * Get id
      *
@@ -64,7 +62,7 @@ class Post implements PostInterface
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return Post
      */
     public function setTitle($title)
@@ -87,7 +85,7 @@ class Post implements PostInterface
     /**
      * Set content
      *
-     * @param string $content
+     * @param  string $content
      * @return Post
      */
     public function setContent($content)
