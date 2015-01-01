@@ -2,7 +2,7 @@
 
 ---
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9462ef70-573c-4c56-a162-4b32345d527d/mini.png)](https://insight.sensiolabs.com/projects/9462ef70-573c-4c56-a162-4b32345d527d)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9462ef70-573c-4c56-a162-4b32345d527d/big.png)](https://insight.sensiolabs.com/projects/9462ef70-573c-4c56-a162-4b32345d527d)
 
 ---
 
